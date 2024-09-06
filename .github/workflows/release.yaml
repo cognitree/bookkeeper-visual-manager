@@ -2,12 +2,12 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - 'test*'
 
 jobs:
   create-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v2
@@ -16,6 +16,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Display OS and architecture
+        run: |
+          lsb_release -a
+          uname -m
       - name: Build with Maven
         run: mvn -B package -DskipTests
       - uses: ncipollo/release-action@v1
